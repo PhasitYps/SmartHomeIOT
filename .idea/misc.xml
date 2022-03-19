@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/drawable/bg_circle_white.xml" value="0.14635416666666667" />
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/drawable/bg_radius_bottom.xml" value="0.14635416666666667" />
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/layout/activity_login.xml" value="0.18115942028985507" />
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/layout/activity_setting.xml" value="0.19021739130434784" />
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/layout/dialog_loading.xml" value="0.13020833333333334" />
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/ProjectsAndroidStudio/SmartHomeIOT/app/src/main/res/layout/fragment_smart.xml" value="0.2" />
+        <entry key="..\:/Users/1903/AndroidStudioProjects/SmartHomeIOT/app/src/main/res/layout/activity_main.xml" value="0.1947463768115942" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
