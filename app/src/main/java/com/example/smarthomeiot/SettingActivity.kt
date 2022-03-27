@@ -5,11 +5,13 @@ import android.os.Bundle
 import com.example.smarthomeiot.master.Prefs
 import kotlinx.android.synthetic.main.activity_setting.*
 
-class SettingActivity : AppCompatActivity() {
+class SettingActivity : BaseActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+        initBase()
 
         init()
         event()
@@ -18,8 +20,7 @@ class SettingActivity : AppCompatActivity() {
 
     private fun init(){
 
-        val prefs = Prefs(this)
-        when(prefs.strStatusSmart){
+        when(prefs!!.strStatusSmart){
             "on"->{
                 smartSW.isChecked = true
             }
@@ -28,7 +29,7 @@ class SettingActivity : AppCompatActivity() {
             }
         }
 
-        distanceEDT.setText(prefs.intDistance.toString())
+        distanceEDT.setText(prefs!!.intDistance.toString())
 
     }
 
@@ -46,9 +47,8 @@ class SettingActivity : AppCompatActivity() {
                 "off"
             }
 
-            val prefs = Prefs(this)
-            prefs.intDistance = distance.toString().toInt()
-            prefs.strStatusSmart = statusSmart
+            prefs!!.intDistance = distance.toString().toInt()
+            prefs!!.strStatusSmart = statusSmart
 
             finish()
         }
