@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartHomeIOT">
         <activity
+            android:name=".MapActivity"
+            android:exported="false" />
+        <activity
             android:name=".SettingActivity"
             android:exported="false" />
         <activity
@@ -28,6 +31,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyALHCZsXboBYAkYvgzL1bNJEqFQzLRaNPU" />
     </application>
 
 </manifest>

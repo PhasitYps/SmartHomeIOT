@@ -66,4 +66,7 @@ dependencies {
     implementation 'com.google.gms:google-services:4.3.10'
 
     implementation 'com.google.android.gms:play-services-auth:20.1.0' //20.0.0
+
+    //google map
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
 }
