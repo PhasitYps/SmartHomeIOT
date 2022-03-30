@@ -7,11 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".MapActivity">
 
+
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map"
         tools:context=".MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_target"
+        android:layout_centerInParent="true"
+        app:tint="@color/white"
+        />
 
 </RelativeLayout>
