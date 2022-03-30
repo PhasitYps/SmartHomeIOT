@@ -1,8 +1,10 @@
 package com.example.smarthomeiot
 
 import android.content.Intent
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.smarthomeiot.master.GPSManage
 import com.example.smarthomeiot.master.Prefs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -50,7 +52,6 @@ class SettingActivity : BaseActivity(), OnMapReadyCallback {
 
 
 
-
         continueRL.setOnClickListener {
             val distance = if(distanceEDT.text.isEmpty()){
                 0
@@ -63,6 +64,11 @@ class SettingActivity : BaseActivity(), OnMapReadyCallback {
                 "off"
             }
 
+            val lat = mMap.cameraPosition.target.latitude
+            val long = mMap.cameraPosition.target.longitude
+
+            prefs!!.longLatitude = lat.toFloat()
+            prefs!!.longLongitude = long.toFloat()
             prefs!!.intDistance = distance.toString().toInt()
             prefs!!.strStatusSmart = statusSmart
 
@@ -77,19 +83,36 @@ class SettingActivity : BaseActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
 
         mMap = googleMap
-        mMap.uiSettings.isScrollGesturesEnabled = false
-        mMap.uiSettings.isZoomGesturesEnabled = false
-        mMap.setOnMapClickListener {
-            val intent = Intent(this, MapActivity::class.java)
-            startActivity(intent)
-        }
+        /*mMap.uiSettings.isScrollGesturesEnabled = false
+        mMap.uiSettings.isZoomGesturesEnabled = false*/
 
+
+
+        val lat = prefs!!.longLatitude
+        val long = prefs!!.longLongitude
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val thailand = LatLng(lat.toDouble(), long.toDouble())
+        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thailand, 16f))
+
+        initMap()
     }
+
+    private fun initMap(){
+
+        val gpsManage = GPSManage(this)
+        gpsManage.requestGPS()
+        gpsManage.setMyEvent(object : GPSManage.MyEvent{
+            override fun onLocationChanged(currentLocation: Location) {
+
+                val current = LatLng(currentLocation.latitude, currentLocation.longitude)
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 16f))
+            }
+
+            override fun onDissAccessgps() {
+
+            }
+        })
+    }
+
 }
