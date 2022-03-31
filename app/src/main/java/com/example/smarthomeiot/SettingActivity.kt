@@ -4,6 +4,7 @@ import android.content.Intent
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.smarthomeiot.master.GPSManage
 import com.example.smarthomeiot.master.Prefs
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,18 +15,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_setting.*
 
-class SettingActivity : BaseActivity(), OnMapReadyCallback {
+class SettingActivity : BaseActivity() {
 
-    private lateinit var mMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
         initBase()
-
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
 
 
         init()
@@ -50,7 +46,11 @@ class SettingActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun event(){
 
+        mapLL.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
 
+        }
 
         continueRL.setOnClickListener {
             val distance = if(distanceEDT.text.isEmpty()){
@@ -64,15 +64,13 @@ class SettingActivity : BaseActivity(), OnMapReadyCallback {
                 "off"
             }
 
-            val lat = mMap.cameraPosition.target.latitude
-            val long = mMap.cameraPosition.target.longitude
-
-            prefs!!.longLatitude = lat.toFloat()
-            prefs!!.longLongitude = long.toFloat()
             prefs!!.intDistance = distance.toString().toInt()
             prefs!!.strStatusSmart = statusSmart
 
-            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finishAffinity()
+
         }
 
         backIV.setOnClickListener {
@@ -80,11 +78,11 @@ class SettingActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
+    /*override fun onMapReady(googleMap: GoogleMap) {
 
         mMap = googleMap
-        /*mMap.uiSettings.isScrollGesturesEnabled = false
-        mMap.uiSettings.isZoomGesturesEnabled = false*/
+        *//*mMap.uiSettings.isScrollGesturesEnabled = false
+        mMap.uiSettings.isZoomGesturesEnabled = false*//*
 
 
 
@@ -113,6 +111,6 @@ class SettingActivity : BaseActivity(), OnMapReadyCallback {
 
             }
         })
-    }
+    }*/
 
 }

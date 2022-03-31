@@ -9,25 +9,34 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-
-
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initBase()
 
-        changeMenu("home")
+        when(prefs!!.strPageDefault){
+            "home"->{
+                changeMenu("home")
+            }
+            "smart"->{
+                changeMenu("smart")
+            }
+        }
+
         event()
     }
 
     private fun event(){
 
         menu_homeRL.setOnClickListener {
+            prefs!!.strPageDefault = "home"
             changeMenu("home")
         }
 
         menu_smartRL.setOnClickListener {
+            prefs!!.strPageDefault = "smart"
             changeMenu("smart")
         }
     }
