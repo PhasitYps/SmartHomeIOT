@@ -28,13 +28,6 @@ class LoginActivity : AppCompatActivity() {
         subtitleTV.text = "Smart Home can change the way\nyour live in the future."
 
         setEvent()
-
-        val user = auth.currentUser
-        if(user != null){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
     }
 
     private fun setEvent(){

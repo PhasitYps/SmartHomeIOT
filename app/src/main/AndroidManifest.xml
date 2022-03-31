@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartHomeIOT">
         <activity
-            android:name=".CheckPermission"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".MapActivity"
@@ -26,7 +26,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".CheckPermission"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

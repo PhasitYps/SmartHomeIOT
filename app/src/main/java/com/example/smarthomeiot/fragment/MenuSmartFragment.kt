@@ -41,23 +41,30 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
         super.onViewCreated(view, savedInstanceState)
         prefs = Prefs(requireContext())
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
-        mapFragment!!.getMapAsync { googleMap ->
-            mMap = googleMap
-            mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-            mMap!!.clear() //clear old markers
+        when(prefs!!.strStatusSmart){
+            "on"->{
+                val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+                mapFragment!!.getMapAsync { googleMap ->
+                    mMap = googleMap
+                    mMap!!.mapType = GoogleMap.MAP_TYPE_HYBRID
+                    mMap!!.uiSettings.isMapToolbarEnabled = false
+                    mMap!!.uiSettings.isScrollGesturesEnabled = false
+                    mMap!!.uiSettings.isZoomGesturesEnabled = false
+                    mMap!!.clear() //clear old markers
 
 
-            val deviceLoc = LatLng(prefs!!.floatLatitude.toDouble(), prefs!!.floatLongitude.toDouble())
-            val googlePlex = CameraPosition.builder()
-                .target(deviceLoc)
-                .zoom(10f)
-                .bearing(0f)
-                .tilt(45f)
-                .build()
+                    val deviceLoc = LatLng(prefs!!.floatLatitude.toDouble(), prefs!!.floatLongitude.toDouble())
+                    val googlePlex = CameraPosition.builder()
+                        .target(deviceLoc)
+                        .zoom(10f)
+                        .bearing(0f)
+                        .tilt(45f)
+                        .build()
 
-            mMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, null)
-            mMap!!.addMarker(MarkerOptions().position(deviceLoc))
+                    mMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, null)
+                    mMap!!.addMarker(MarkerOptions().position(deviceLoc).icon(bitmapDescriptorFromDrawable(requireContext(), R.drawable.ic_my_home)))
+                }
+            }
         }
 
         init()
