@@ -32,7 +32,7 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
         Glide.with(requireActivity()).load(user.photoUrl).into(profileUserIV)
 
         val myRef = Firebase.database.getReference("monitor")
-        myRef.addListenerForSingleValueEvent(object : ValueEventListener{
+        myRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(sn in snapshot.children){
                     val m = sn.getValue(ModelDevice::class.java)

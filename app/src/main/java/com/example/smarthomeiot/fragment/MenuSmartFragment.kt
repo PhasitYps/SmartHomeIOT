@@ -85,7 +85,7 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
         long = prefs!!.floatLongitude.toDouble()
 
         val myRef = Firebase.database.getReference("monitor")
-        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(sn in snapshot.children){
                     val m = sn.getValue(ModelDevice::class.java)
@@ -160,15 +160,7 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
                         changeStatusIOT("door", "on")
 
                         if(statusLightTV.text.equals("off") || statusFanTV.text.equals("off") || statusDoorTV.text.equals("off")){
-                            try {
-                                statusLightTV.text = "on"
-                                statusFanTV.text = "on"
-                                statusDoorTV.text = "on"
-
-                                Toast.makeText(requireContext(), "IOT is on", Toast.LENGTH_SHORT).show()
-                            }catch (e: Exception){
-
-                            }
+                            Toast.makeText(requireContext(), "IOT is on", Toast.LENGTH_SHORT).show()
                         }
 
                     }else{
@@ -177,15 +169,7 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
                         changeStatusIOT("door", "off")
 
                         if(statusLightTV.text.equals("on") || statusFanTV.text.equals("on") || statusDoorTV.text.equals("on")){
-                            try {
-                                statusLightTV.text = "off"
-                                statusFanTV.text = "off"
-                                statusDoorTV.text = "off"
-
-                                Toast.makeText(requireContext(), "IOT is off", Toast.LENGTH_SHORT).show()
-                            }catch (e: Exception){
-
-                            }
+                            Toast.makeText(requireContext(), "IOT is off", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }catch (e: Exception){
