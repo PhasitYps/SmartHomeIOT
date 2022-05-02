@@ -3,8 +3,8 @@ package com.example.smarthomeiot.master
 import android.content.Context
 import android.content.SharedPreferences
 
-class Prefs (private var context: Context)
-{
+class Prefs (private var context: Context) {
+
     private val APP_PREF_INT_DISTANCE = "intDistance"
     private val APP_PREF_STR_STATUS_SMART = "strStatusSmart"
     private val APP_PREF_LONG_LATITUDE = "doubleLatitude"
@@ -22,17 +22,15 @@ class Prefs (private var context: Context)
         get() = preferences.getString(APP_PREF_STR_STATUS_SMART, "off")
         set(value) = preferences.edit().putString(APP_PREF_STR_STATUS_SMART, value).apply()
 
-    var floatLatitude: Float
+    var floatHomeLatitude: Float
         get() = preferences.getFloat(APP_PREF_LONG_LATITUDE, 13.668217f)
         set(value) = preferences.edit().putFloat(APP_PREF_LONG_LATITUDE, value).apply()
 
-    var floatLongitude: Float
+    var floatHomeLongitude: Float
         get() = preferences.getFloat(APP_PREF_LONG_LONGITUDE, 100.614021f)
         set(value) = preferences.edit().putFloat(APP_PREF_LONG_LONGITUDE, value).apply()
 
     var strPageDefault: String?
         get() = preferences.getString(APP_PREF_STR_PAGE_DEFAULT, "home")
         set(value) = preferences.edit().putString(APP_PREF_STR_PAGE_DEFAULT, value).apply()
-
-
 }

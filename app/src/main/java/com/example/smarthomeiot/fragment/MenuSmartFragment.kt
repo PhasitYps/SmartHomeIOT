@@ -36,10 +36,27 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
     private var gpsManage: GPSManage? = null
     private var prefs: Prefs? = null
     private var mMap: GoogleMap? = null
+    private var homeLat: Double? = null
+    private var homeLng: Double? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = Prefs(requireContext())
+
+        init()
+        event()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        gpsManage!!.close()
+    }
+
+    private fun init(){
+
+        homeLat = prefs!!.floatHomeLatitude.toDouble()
+        homeLng = prefs!!.floatHomeLongitude.toDouble()
+        statusSmartHomeTV.text = prefs!!.strStatusSmart
 
         when(prefs!!.strStatusSmart){
             "on"->{
@@ -52,8 +69,7 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
                     mMap!!.uiSettings.isZoomGesturesEnabled = false
                     mMap!!.clear() //clear old markers
 
-
-                    val deviceLoc = LatLng(prefs!!.floatLatitude.toDouble(), prefs!!.floatLongitude.toDouble())
+                    val deviceLoc = LatLng(homeLat!!, homeLng!!)
                     val googlePlex = CameraPosition.builder()
                         .target(deviceLoc)
                         .zoom(10f)
@@ -67,36 +83,16 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
             }
         }
 
-        init()
-        event()
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        gpsManage!!.close()
-    }
-
-    private var lat: Double? = null
-    private var long: Double? = null
-    private fun init(){
-
-        lat = prefs!!.floatLatitude.toDouble()
-        long = prefs!!.floatLongitude.toDouble()
-
         val myRef = Firebase.database.getReference("monitor")
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(sn in snapshot.children){
                     val m = sn.getValue(ModelDevice::class.java)
-
                     try{
                         when(m!!.name){
-
                             "light" ->{
                                 statusLightTV.text = m.status
                             }
-
                             "fan"->{
                                 statusFanTV.text = m.status
                             }
@@ -104,57 +100,40 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
                                 statusDoorTV.text = m.status
                             }
                         }
-
                     }catch (e: Exception){
-
                     }
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
         })
-
-        statusSmartHomeTV.text = prefs!!.strStatusSmart
 
         gpsManage = GPSManage(requireActivity())
         gpsManage!!.setMyEvent(object : GPSManage.MyEvent{
             override fun onLocationChanged(local: Location) {
                 //13.965766265650242, 100.58605656649073 มอรังสิต
-
                 try {
+                    //clear map
                     mMap!!.clear()
 
-                    val homeLoc = Location("device")
-                    homeLoc.latitude = lat!!
-                    homeLoc.longitude = long!!
-
+                    //set marker and camera in Map
                     val myLoc = LatLng(local.latitude, local.longitude)
-                    val deviceLoc = LatLng(lat!!, long!!)
-
-                    /*val myPlex = CameraPosition.builder()
-                        .target(myLoc)
-                        .zoom(16f)
-                        .bearing(0f)
-                        .tilt(45f)
-                        .build()*/
-
-                    //mMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(myPlex), 10000, null)
-
+                    val deviceLoc = LatLng(homeLat!!, homeLng!!)
                     mMap!!.addMarker(MarkerOptions().position(myLoc).icon(bitmapDescriptorFromDrawable(requireContext(), R.drawable.ic_car)))
                     mMap!!.addMarker(MarkerOptions().position(deviceLoc).icon(bitmapDescriptorFromDrawable(requireContext(), R.drawable.ic_my_home)))
-
                     val markArray = arrayListOf(myLoc, deviceLoc)
                     moveCameraMulti(mMap!!, markArray)
 
-                    displayDistanceTV.text = "Distance "+ getDistance(local, homeLoc)
+                    //calculate distance device to home
+                    val homeLoc = Location("device")
+                    homeLoc.latitude = homeLat!!
+                    homeLoc.longitude = homeLng!!
 
                     val distance = local.distanceTo(homeLoc)
-                    val distanceInSetting = prefs!!.intDistance
+                    val distanceSetting = prefs!!.intDistance
 
-                    if(distance <= distanceInSetting){
+                    displayDistanceTV.text = "Distance ${getTextDisplayDistance(distance)}"
+
+                    if(distance <= distanceSetting){
                         changeStatusIOT("light", "on")
                         changeStatusIOT("fan", "on")
                         changeStatusIOT("door", "on")
@@ -172,16 +151,9 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
                             Toast.makeText(requireContext(), "IOT is off", Toast.LENGTH_SHORT).show()
                         }
                     }
-                }catch (e: Exception){
-
-                }
-
-
+                }catch (e: Exception){}
             }
-
-            override fun onDissAccessgps() {
-
-            }
+            override fun onDissAccessGPS() {}
         })
 
         when(prefs!!.strStatusSmart){
@@ -193,8 +165,6 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
                 gpsManage!!.close()
             }
         }
-
-
 
     }
 
@@ -234,9 +204,9 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
         }
     }
 
-    private fun getDistance(start: Location, end: Location): String? {
+    private fun getTextDisplayDistance(distanceTo: Float): String? {
 
-        var distance = start.distanceTo(end)
+        var distance = distanceTo
         var dist = ""
 
         if (distance > 1000.0f) {

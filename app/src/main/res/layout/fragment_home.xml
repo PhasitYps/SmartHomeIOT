@@ -138,7 +138,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="Turn On/Off"
+                            android:text="Turn Off/On"
                             android:textColor="@color/black"
                             />
 

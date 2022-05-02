@@ -26,7 +26,6 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
     }
 
     private fun init(){
-
         val user = auth.currentUser
         usernameTV.text = "${user.displayName}!"
         Glide.with(requireActivity()).load(user.photoUrl).into(profileUserIV)
@@ -36,21 +35,14 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(sn in snapshot.children){
                     val m = sn.getValue(ModelDevice::class.java)
-
                     try{
                         when(m!!.name){
-
                             "light" ->{
                                 when(m.status){
-                                    "on"->{
-                                        lightSw.isChecked = true
-                                    }
-                                    "off"->{
-                                        lightSw.isChecked = false
-                                    }
+                                    "on"->lightSw.isChecked = true
+                                    "off"->lightSw.isChecked = false
                                 }
                             }
-
                             "fan"->{
                                 when(m.status){
                                     "on"->{
@@ -72,24 +64,14 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
                                 }
                             }
                         }
-
-                    }catch (e: Exception){
-
-                    }
+                    }catch (e: Exception){ }
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
         })
-
-
     }
 
     private fun event(){
-
         comebackLL.setOnClickListener {
             lightSw.isChecked = true
             fanSw.isChecked = true
@@ -99,7 +81,6 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
             changeStatusIOT("fan", "on")
             changeStatusIOT("door", "on")
         }
-
         leaveLL.setOnClickListener {
             lightSw.isChecked = false
             fanSw.isChecked = false
@@ -112,15 +93,11 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
 
         lightSw.setOnClickListener {
             when(lightSw.isChecked){
-                true->{
-                    changeStatusIOT("light", "on")
-                }
-                false->{
-                    changeStatusIOT("light", "off")
-                }
+                true->changeStatusIOT("light", "on")
+
+                false->changeStatusIOT("light", "off")
             }
         }
-
         fanSw.setOnClickListener {
             when(fanSw.isChecked){
                 true->{
@@ -131,7 +108,6 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
                 }
             }
         }
-
         doorSw.setOnClickListener {
             when(doorSw.isChecked){
                 true->{
@@ -145,7 +121,6 @@ class MenuHomeFragment :Fragment(R.layout.fragment_home) {
     }
 
     private fun changeStatusIOT(device: String, status: String){
-
         val model = ModelDevice()
         model.name = device
         model.status = status

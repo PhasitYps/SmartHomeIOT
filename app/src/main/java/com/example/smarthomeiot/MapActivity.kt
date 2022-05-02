@@ -33,8 +33,8 @@ class MapActivity : BaseActivity(), OnMapReadyCallback{
 
             val loc = mMap.cameraPosition.target
 
-            prefs!!.floatLatitude = loc.latitude.toFloat()
-            prefs!!.floatLongitude = loc.longitude.toFloat()
+            prefs!!.floatHomeLatitude = loc.latitude.toFloat()
+            prefs!!.floatHomeLongitude = loc.longitude.toFloat()
             finish()
         }
 
@@ -53,7 +53,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback{
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 16f))
                 }
 
-                override fun onDissAccessgps() {
+                override fun onDissAccessGPS() {
 
                 }
             })
@@ -65,8 +65,8 @@ class MapActivity : BaseActivity(), OnMapReadyCallback{
 
         //13.668217, 100.614021
 
-        val lat = prefs!!.floatLatitude
-        val long = prefs!!.floatLongitude
+        val lat = prefs!!.floatHomeLatitude
+        val long = prefs!!.floatHomeLongitude
         // Add a marker in Sydney and move the camera
         val thailand = LatLng(lat.toDouble(), long.toDouble())
         //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))

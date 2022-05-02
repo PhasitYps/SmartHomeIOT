@@ -43,6 +43,6 @@ class CheckPermission : AppCompatActivity() {
                     count++
                 }
             }
-        }, 0, 500)
+        }, 0, 1000)
     }
 }
