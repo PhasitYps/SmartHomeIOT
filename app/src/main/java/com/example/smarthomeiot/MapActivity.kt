@@ -39,14 +39,15 @@ class MapActivity : BaseActivity(), OnMapReadyCallback{
         }
 
         Log.i("dsadasda", "event")
+
         currentFab.setOnClickListener {
 
             Log.i("dsadasda", "location: click")
+
             val gpsManage = GPSManage(this)
             gpsManage.requestGPS()
             gpsManage.setMyEvent(object : GPSManage.MyEvent{
                 override fun onLocationChanged(currentLocation: Location) {
-
                     Log.i("dsadasda", "location: $currentLocation")
 
                     val current = LatLng(currentLocation.latitude, currentLocation.longitude)

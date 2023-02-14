@@ -29,6 +29,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.*
+import com.google.firebase.database.ktx.getValue
 
 
 class MenuSmartFragment :Fragment(R.layout.fragment_smart){
@@ -42,6 +43,28 @@ class MenuSmartFragment :Fragment(R.layout.fragment_smart){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = Prefs(requireContext())
+
+        val database = Firebase.database
+        val myRef = database.getReference("message")
+
+        Log.d("sadasdasd", "Start App")
+
+        //myRef.setValue("Hello, World!")
+        // Read from the database
+        myRef.addListenerForSingleValueEvent(object: ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = snapshot.getValue<String>()
+                Log.d("sadasdasd", "Value is: " + value)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("sadasdasd", "Failed to read value.", error.toException())
+            }
+
+        })
 
         init()
         event()

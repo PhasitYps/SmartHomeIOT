@@ -28,10 +28,9 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_target"
         android:layout_centerInParent="true"
-        app:tint="@color/colorYellow"
-        />
+        android:src="@drawable/ic_target"
+        app:tint="@color/colorYellow" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/currentFab"

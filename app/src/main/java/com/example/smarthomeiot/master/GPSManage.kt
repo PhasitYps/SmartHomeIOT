@@ -10,7 +10,6 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import com.google.type.LatLng
 
 class GPSManage(private var activity: Activity) {
 
@@ -28,6 +27,7 @@ class GPSManage(private var activity: Activity) {
     private var isGPS: Boolean = false
     private var locationManager: LocationManager? = null
     private val PERMISSION_REQUEST = 1001
+    private val TAG = "GPSManage"
 
     init {
         locationManager = activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -35,20 +35,20 @@ class GPSManage(private var activity: Activity) {
     }
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            Log.d("Latitude", "Latitude:" + location.latitude + ", Longitude:" + location.longitude)
+            Log.d(TAG, "Latitude:" + location.latitude + ", Longitude:" + location.longitude)
             l?.onLocationChanged(location)
         }
         override fun onProviderDisabled(provider: String) {
             super.onProviderDisabled(provider)
-            Log.d("Latitude","disable")
+            Log.d(TAG,"disable")
         }
         override fun onProviderEnabled(provider: String) {
             super.onProviderEnabled(provider)
-            Log.d("Latitude","enabled")
+            Log.d(TAG,"enabled")
         }
         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
             super.onStatusChanged(provider, status, extras)
-            Log.d("Latitude","status")
+            Log.d(TAG,"status")
         }
     }
     fun requestGPS(){
